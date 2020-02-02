@@ -1,0 +1,23 @@
+name: PureTickets
+version: 2.0.0
+author: Broccolai
+main: Tickets
+api-version: 1.13
+commands:
+      ticket:
+         description: Main command
+         aliases: [ti]
+         usage: |
+           /ticket show - Shows ticket
+           /ticket list - Lists tickets
+           /ticket create - Creates a ticket
+           /ticket done - Done-marks a ticket
+           /ticket pick - Picks a ticket
+           /ticket yield - Yields a ticket
+           /ticket highscore - Shows highscores
+permissions:
+  tickets.user:
+    description: "permission for players to use the plugin"
+  tickets.staff:
+    description: "permission for utility.staff to manage tickets"
+    default: op

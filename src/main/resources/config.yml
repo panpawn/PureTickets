@@ -1,0 +1,6 @@
+# How long between reminding utility.staff tickets are in [Minutes]
+ReminderInterval: 10
+# Locale setting
+Locale: "en"
+# Allow players to make multiple tickets (Experimental - Please report all bugs)
+Multiple: false
