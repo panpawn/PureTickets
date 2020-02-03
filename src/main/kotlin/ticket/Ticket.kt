@@ -1,6 +1,7 @@
 package ticket
 
 import Tickets.Companion.TicketManager
+import managers.Notifications
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import storage.TicketSQL
@@ -43,7 +44,7 @@ class Ticket(val id: Int, val uuid: UUID, picker: UUID?, private val messages: A
         TicketSQL.update(this)
     }
 
-    fun notify(message: String)  = Bukkit.getPlayer(uuid)?.message(message)
+    fun notify(message: String) = Notifications.send(uuid, message)
 
     fun holdersName() = Bukkit.getOfflinePlayer(uuid).name
 }

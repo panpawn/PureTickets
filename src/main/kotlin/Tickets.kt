@@ -2,6 +2,7 @@ import interactions.Dispatcher
 import interactions.TabCompletion
 import managers.ChatInput
 import managers.InventoryManager
+import managers.Notifications
 import org.bukkit.command.TabCompleter
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
@@ -24,6 +25,7 @@ class Tickets : JavaPlugin() {
 
         server.pluginManager.registerEvents(InventoryManager, this)
         server.pluginManager.registerEvents(ChatInput, this)
+        server.pluginManager.registerEvents(Notifications, this)
     }
 
     override fun onDisable() {

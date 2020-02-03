@@ -12,7 +12,6 @@ object Pick : Action("pick", "tickets.staff", true) {
         else ticket.setStatus(TicketStatus.PICKED)
 
         ticket.notify(commandSender.name + " has picked your ticket")
-
         staff(commandSender.name + " has picked " + ticket.holdersName() + "'s ticket")
     }
 
