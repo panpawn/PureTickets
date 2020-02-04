@@ -8,9 +8,15 @@ import utility.staff
 
 object Pick : Action("pick", "tickets.staff", true) {
     private fun main(commandSender: CommandSender, ticket: Ticket) {
-        if (commandSender is Player) ticket.setStatus(TicketStatus.PICKED, commandSender.uniqueId)
-        else ticket.setStatus(TicketStatus.PICKED)
+        val uuid = if (commandSender is Player) {
+            ticket.setStatus(TicketStatus.PICKED, commandSender.uniqueId)
+            commandSender.uniqueId
+        } else {
+            ticket.setStatus(TicketStatus.PICKED)
+            null
+        }
 
+        ticket.addMessage(uuid, "Picked")
         ticket.notify(commandSender.name + " has picked your ticket")
         staff(commandSender.name + " has picked " + ticket.holdersName() + "'s ticket")
     }

@@ -17,12 +17,12 @@ class Ticket(val id: Int, val uuid: UUID, picker: UUID?, private val messages: A
         private set
 
     constructor(player: Player, message: String) : this(TicketManager.currentId, player.uniqueId, null, ArrayList(), TicketStatus.OPEN) {
-        addMessage(player, message)
+        addMessage(player.uniqueId, message)
         TicketSQL.insTicket(this)
     }
 
-    fun addMessage(player: Player, message: String) {
-        val msg = Message(player.uniqueId, message)
+    fun addMessage(uuid: UUID?, message: String) {
+        val msg = Message(uuid, message)
         messages += msg
 
         TicketSQL.insMessage(id, msg)
@@ -49,6 +49,6 @@ class Ticket(val id: Int, val uuid: UUID, picker: UUID?, private val messages: A
     fun holdersName() = Bukkit.getOfflinePlayer(uuid).name
 }
 
-data class Message(val uuid: UUID, val message: String, val date: LocalDateTime = LocalDateTime.now())
+data class Message(val uuid: UUID?, val message: String, val date: LocalDateTime = LocalDateTime.now())
 
 enum class TicketStatus { OPEN, PICKED, CLOSED }

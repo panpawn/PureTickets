@@ -34,7 +34,7 @@ object Update : Action("update", "tickets.user", false) {
             return
         }
 
-        ticket?.addMessage(player, message)
+        ticket?.addMessage(player.uniqueId, message)
         player.message("Ticket updated successfully")
         staff("§f§l" + player.name + "§7 - " + message)
     }
