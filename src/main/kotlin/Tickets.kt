@@ -11,8 +11,9 @@ import ticket.TicketManager
 
 class Tickets : JavaPlugin() {
     override fun onEnable() {
-        TICKETS = this
+        dataFolder.mkdir()
 
+        TICKETS = this
         SQLManager = SQL()
         TicketManager = TicketManager()
         InventoryManager = InventoryManager()
