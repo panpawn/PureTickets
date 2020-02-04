@@ -6,13 +6,15 @@ import interactions.actions.Pick
 import interactions.actions.Update
 
 enum class Actions(val action: Action, val isAlias: Boolean = false) {
-    CREATE(Create), C(Create, true), UPDATE(Update), U(Update, true), PICK(Pick), P(Pick, true);
+    CREATE(Create), C(Create, true),
+    UPDATE(Update), U(Update, true),
+    PICK(Pick), P(Pick, true);
 
     companion object {
         fun find(input: String): Actions? {
             val search = input.toUpperCase()
 
-            for (action in Actions.values()) {
+            for (action in values()) {
                 if (action.name == search)
                     return action
             }
