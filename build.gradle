@@ -22,15 +22,9 @@ dependencies {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-task copyJar(type: Copy) {
-    from file("build/libs/" + name + ".jar")
-    into file("/Users/mai/development/server/plugins/")
-}
-
 tasks {
     build {
         dependsOn(shadowJar)
-        finalizedBy(copyJar)
     }
 
     shadowJar {
