@@ -6,7 +6,7 @@ plugins {
 
 def name = 'PureTickets'
 group 'co.uk.magmo.pureTickets'
-version '2.0.0'
+version '2.0.0-beta.1'
 
 repositories {
     mavenCentral()
