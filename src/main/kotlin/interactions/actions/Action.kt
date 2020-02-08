@@ -37,4 +37,9 @@ abstract class Action(override val name: String, override val permission: String
             ticket
         }
     }
+
+    fun hasPerms(player: Player) = if (player.hasPermission(permission)) true else {
+        player.message("You do not have permission")
+        false
+    }
 }
