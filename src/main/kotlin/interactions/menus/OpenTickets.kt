@@ -15,9 +15,8 @@ class OpenTickets(player: Player) : Menu(player, "Open Tickets", 54) {
     override fun load() {
         val keys = TicketSQL.recentPlayers()
 
-        for (i in keys.indices) {
-            keys[i]?.let { player(it).place(i) }
-        }
+        for (i in keys.indices)
+            player(keys[i]).place(i)
     }
 
     private fun player(uuid: UUID): InvPair {
