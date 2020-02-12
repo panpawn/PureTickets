@@ -16,8 +16,15 @@ commands:
            /ticket yield - Yields a ticket
            /ticket highscore - Shows highscores
 permissions:
-  tickets.user:
-    description: "permission for players to use the plugin"
-  tickets.staff:
-    description: "permission for utility.staff to manage tickets"
+  tickets.user.close:
+    description: "permission for users to close a ticket"
+  tickets.user.create:
+    description: "permission for users to create a ticket"
+  tickets.user.update:
+    description: "permission for users to update a ticket"
+  tickets.staff.done:
+    description: "permission for staff to done-mark a ticket"
+    default: op
+  tickets.staff.pick:
+    description: "permission for staff to pick a ticket"
     default: op
