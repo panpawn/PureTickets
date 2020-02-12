@@ -32,6 +32,7 @@ class PersonalTickets(player: Player, private val active: Boolean) : Menu(player
 
         val runnable = Runnable {
             ticket.setStatus(TicketStatus.CLOSED)
+            show()
         }
 
         return InvPair(item, runnable)
