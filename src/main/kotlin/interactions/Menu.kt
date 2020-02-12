@@ -2,7 +2,6 @@ package interactions
 
 import Tickets.Companion.InventoryManager
 import Tickets.Companion.TICKETS
-import Tickets.Companion.TicketManager
 import interactions.menus.Start
 import org.bukkit.Bukkit
 import org.bukkit.Material
