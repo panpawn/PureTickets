@@ -1,22 +1,34 @@
 package interactions.actions
 
-import interactions.menus.Start
+import Tickets.Companion.InventoryManager
+import Tickets.Companion.TicketManager
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import ticket.Ticket
 import ticket.TicketStatus
+import utility.message
 
-object Close : Action("close", "tickets.user", false) {
+object Close : Action("close", "tickets.user.close", false) {
     fun gui(player: Player, ticket: Ticket) {
+        if (!hasPerms(player)) return
+
         ticket.setStatus(TicketStatus.CLOSED)
-        Start(player).show()
+        InventoryManager.refresh(player)
     }
 
     override fun cli(commandSender: CommandSender, input: String) {
+        if (commandSender !is Player) {
+            commandSender.message("Console cannot player commands.")
+            return
+        }
 
-    }
+        val ticket = TicketManager[commandSender.uniqueId]?.getOrNull(input.split(" ").last().toIntOrNull() ?: 1)
 
-    override fun response(player: Player, message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (ticket != null) {
+            ticket.setStatus(TicketStatus.CLOSED)
+            commandSender.message("Ticket closed")
+        } else {
+            commandSender.message("Cannot find ticket")
+        }
     }
 }
