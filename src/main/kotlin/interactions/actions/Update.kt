@@ -8,10 +8,12 @@ import ticket.Ticket
 import utility.message
 import utility.staff
 
-object Update : Action("update", "tickets.user", false) {
+object Update : Action("update", "tickets.user.update", false) {
     var ticket: Ticket? = null
 
     fun gui(player: Player, input: Ticket) {
+        if (!hasPerms(player)) return
+
         ticket = input
         player.message("Enter the updated message")
         getInput(player)
@@ -34,8 +36,9 @@ object Update : Action("update", "tickets.user", false) {
             return
         }
 
-        ticket?.addMessage(player.uniqueId, message)
+        ticket?.addMessage(player, message)
         player.message("Ticket updated successfully")
+
         staff("§f§l" + player.name + "§7 - " + message)
     }
 }
