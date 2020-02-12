@@ -3,6 +3,7 @@ package interactions.menus
 import Tickets.Companion.TicketManager
 import interactions.InvPair
 import interactions.Menu
+import interactions.actions.Done
 import interactions.actions.Pick
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -55,16 +56,12 @@ class IndividualsTickets(player: Player, private val target: OfflinePlayer, priv
                 }
 
                 TicketStatus.PICKED -> {
-                    if (ticket.picker == player.uniqueId) {
-                        ticket.setStatus(TicketStatus.CLOSED)
-                        ticket.notify(player.name + " has done-marked your ticket")
-                        staff(player.name + " has done-marked " + ticket.holdersName())
-                        show()
-                    } else flashDeny(location, "You cannot pick a ticket", "that has already been picked")
+                    if (ticket.picker == player.uniqueId) Done.gui(player, ticket)
+                    else flashDeny(location, "You cannot done a ticket", "that is picked by someone else")
                 }
 
                 TicketStatus.CLOSED -> {
-                    ticket.setStatus(TicketStatus.PICKED, player.uniqueId)
+                    ticket.setStatus(TicketStatus.PICKED, player)
                     ticket.notify(player.name + " has reopened and picked your ticket")
                     TicketManager.add(target.uniqueId, ticket)
                     show()
