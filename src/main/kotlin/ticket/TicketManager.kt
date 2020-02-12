@@ -14,7 +14,7 @@ class TicketManager {
 
     private val tickets = TicketSQL.getActive()
 
-    operator fun get(uuid: UUID, index: Int) = tickets[uuid]?.get(index - 1)
+    operator fun get(uuid: UUID?, index: Int) = tickets[uuid]?.get(index - 1)
 
     operator fun get(uuid: UUID) = tickets[uuid]
 
