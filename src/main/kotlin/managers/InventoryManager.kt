@@ -31,4 +31,8 @@ class InventoryManager : Listener {
     operator fun set(player: Player, task: BukkitTask) {
         pendingTasks[player.uniqueId] = task
     }
+
+    fun refresh(player: Player) {
+        currentMenu[player.uniqueId]?.show()
+    }
 }
