@@ -11,3 +11,5 @@ fun CommandSender.message(input: String, hasPrefix: Boolean = true) = sendMessag
 fun staff(message: String) = Bukkit.broadcast("$prefix$message", "tickets.staff")
 
 fun log(message: String) = Bukkit.getConsoleSender().sendMessage("$prefix$message")
+
+fun getOfflinePlayer(input: String?) = if (input != null) Bukkit.getOfflinePlayer(input) else null
