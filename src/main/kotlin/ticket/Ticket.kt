@@ -3,6 +3,7 @@ package ticket
 import Tickets.Companion.TicketManager
 import managers.Notifications
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import storage.TicketSQL
 import utility.message
@@ -17,12 +18,12 @@ class Ticket(val id: Int, val uuid: UUID, picker: UUID?, private val messages: A
         private set
 
     constructor(player: Player, message: String) : this(TicketManager.currentId, player.uniqueId, null, ArrayList(), TicketStatus.OPEN) {
-        addMessage(player.uniqueId, message)
+        addMessage(player, message)
         TicketSQL.insTicket(this)
     }
 
-    fun addMessage(uuid: UUID?, message: String) {
-        val msg = Message(uuid, message)
+    fun addMessage(s: CommandSender?, message: String) {
+        val msg = Message(if (s is Player) s.uniqueId else null, message)
         messages += msg
 
         TicketSQL.insMessage(id, msg)
@@ -30,15 +31,18 @@ class Ticket(val id: Int, val uuid: UUID, picker: UUID?, private val messages: A
 
     fun currentMessage() = messages.last { it.uuid == uuid }.message
 
-    fun setStatus(ticketStatus: TicketStatus, pickPlayer: UUID? = null) {
+    fun setStatus(ticketStatus: TicketStatus, pickUser: CommandSender? = null) {
         status = ticketStatus
-        if (pickPlayer != null) picker = pickPlayer
 
-        if (status == TicketStatus.CLOSED)
-            TicketManager.remove(uuid, this)
+         when(ticketStatus) {
+            TicketStatus.OPEN -> picker =  null
 
-        if (status == TicketStatus.OPEN) {
-            picker = null
+            TicketStatus.CLOSED -> TicketManager.remove(uuid, this)
+
+            TicketStatus.PICKED -> {
+                picker = if (pickUser !is Player) null
+                else pickUser.uniqueId
+            }
         }
 
         TicketSQL.update(this)
