@@ -1,8 +1,8 @@
 package interactions.actions
 
 import Tickets.Companion.TicketManager
+import interactions.Action
 import org.bukkit.command.CommandSender
-import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.entity.Player
 import ticket.Ticket
 import utility.message

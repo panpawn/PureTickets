@@ -2,6 +2,7 @@ package interactions.actions
 
 import Tickets.Companion.InventoryManager
 import Tickets.Companion.TicketManager
+import interactions.Action
 import utility.message
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
