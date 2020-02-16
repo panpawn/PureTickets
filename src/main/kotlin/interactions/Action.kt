@@ -1,4 +1,4 @@
-package interactions.actions
+package interactions
 
 import Tickets.Companion.ChatInput
 import Tickets.Companion.TicketManager

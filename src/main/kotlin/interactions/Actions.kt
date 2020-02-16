@@ -1,6 +1,5 @@
 package interactions
 
-import interactions.actions.Action
 import interactions.actions.Create
 import interactions.actions.Pick
 import interactions.actions.Update

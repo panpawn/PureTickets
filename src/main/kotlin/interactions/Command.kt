@@ -1,4 +1,4 @@
-package interactions.actions
+package interactions
 
 interface Command {
     val name: String
