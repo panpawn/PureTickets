@@ -34,11 +34,13 @@ abstract class Menu(val player: Player, title: String, size: Int) {
         runs[i] = run
     }
 
-    fun flashDeny(location: Int, vararg messages: String) {
+    fun tryInvoke(error: String?, location: Int) {
+        if (error == null) return
+
         inv.setItem(location, Item(Material.BARRIER).apply {
             name = "§4§lDENIED"
-            messages.forEach {
-                addLore("§f$it")
+            error.splitToAdd().forEach {
+                addLore(it)
             }
         }.get())
 
@@ -47,6 +49,27 @@ abstract class Menu(val player: Player, title: String, size: Int) {
         InventoryManager[player] = Bukkit.getScheduler().runTaskLater(TICKETS, Runnable {
             show()
         }, 120)
+    }
+
+    fun String.splitToAdd(): List<String> {
+        var current = 0
+        val builder = StringBuilder()
+        val split = split(" ")
+
+        return sequence {
+            for (item in split) {
+                current += item.count()
+                builder.append("$item ")
+
+                if(current >= 20) {
+                    yield(builder.toString())
+                    builder.clear()
+                    current = 0
+                }
+            }
+
+            if (builder.isNotEmpty()) yield(builder.toString())
+        }.toList()
     }
 
     fun click(e: InventoryClickEvent) {
