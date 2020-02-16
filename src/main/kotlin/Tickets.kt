@@ -1,9 +1,7 @@
-import interactions.Dispatcher
-import interactions.TabCompletion
+import interactions.TicketCommand
 import managers.ChatInput
 import managers.InventoryManager
 import managers.Notifications
-import org.bukkit.command.TabCompleter
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import storage.SQL
@@ -21,8 +19,8 @@ class Tickets : JavaPlugin() {
 
         val base = getCommand("ticket")
         base?.aliases = listOf("ti")
-        base?.setExecutor(Dispatcher())
-        base?.tabCompleter = TabCompletion
+        base?.setExecutor(TicketCommand)
+        base?.tabCompleter = TicketCommand
 
         server.pluginManager.registerEvents(InventoryManager, this)
         server.pluginManager.registerEvents(ChatInput, this)
