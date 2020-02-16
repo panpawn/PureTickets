@@ -6,7 +6,7 @@ plugins {
 
 def name = 'PureTickets'
 group 'co.uk.magmo.pureTickets'
-version '2.0.0-beta.1'
+version '2.0.0-beta.2'
 
 repositories {
     mavenCentral()
@@ -21,6 +21,10 @@ dependencies {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+if (file("$rootDir/local.gradle").exists()) {
+    apply from: "$rootDir/local.gradle"
+}
 
 tasks {
     build {
