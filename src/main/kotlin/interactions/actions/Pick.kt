@@ -15,10 +15,14 @@ object Pick : Action("pick", "tickets.staff.pick", true) {
         staff(commandSender.name + " has picked " + ticket.holdersName() + "'s ticket")
     }
 
-    fun gui(player: Player, ticket: Ticket) {
-        if (!hasPerms(player)) return
+    fun gui(player: Player, ticket: Ticket): String? {
+        if (!Done.hasPerms(player))
+            return "You do not have permission for this"
 
         main(player, ticket)
+        InventoryManager.refresh(player)
+
+        return null
     }
 
     override fun cli(commandSender: CommandSender, input: String) {
