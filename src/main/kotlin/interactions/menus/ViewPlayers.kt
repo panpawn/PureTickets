@@ -1,5 +1,6 @@
 package interactions.menus
 
+import Tickets.Companion.TicketManager
 import interactions.InvPair
 import interactions.Menu
 import org.bukkit.Bukkit
@@ -11,7 +12,7 @@ import ticket.TicketStatus
 import utility.Item
 import java.util.*
 
-class OpenTickets(player: Player) : Menu(player, "Open Tickets", 54) {
+class ViewPlayers(player: Player) : Menu(player, "Open Tickets", 54) {
     override fun load() {
         val keys = TicketSQL.recentPlayers()
 
@@ -39,11 +40,15 @@ class OpenTickets(player: Player) : Menu(player, "Open Tickets", 54) {
         val runs = HashMap<ClickType, Runnable?>()
 
         runs[ClickType.LEFT] = Runnable {
-            IndividualsTickets(player, target, true).show()
+            ViewTickets(player) {
+                TicketManager[target.uniqueId]
+            }.show()
         }
 
         runs[ClickType.RIGHT] = Runnable {
-            IndividualsTickets(player, target, false).show()
+            ViewTickets(player) {
+                TicketSQL.getInactive(target.uniqueId)
+            }.show()
         }
 
         return InvPair(item, runs)

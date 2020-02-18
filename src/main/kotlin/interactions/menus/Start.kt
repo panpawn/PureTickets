@@ -52,11 +52,15 @@ class Start(player: Player) : Menu(player, "Tickets", 18) {
         val runs = HashMap<ClickType, Runnable?>()
 
         runs[ClickType.LEFT] = Runnable {
-            PersonalTickets(player, true).show()
+            ViewTickets(player) {
+                TicketManager[player.uniqueId]
+            }.show()
         }
 
         runs[ClickType.RIGHT] = Runnable {
-            PersonalTickets(player, false).show()
+            ViewTickets(player) {
+                TicketSQL.getInactive(player.uniqueId)
+            }.show()
         }
 
         return InvPair(item, runs)
@@ -84,7 +88,7 @@ class Start(player: Player) : Menu(player, "Tickets", 18) {
         }
 
         val run = Runnable {
-            OpenTickets(player).show()
+            ViewPlayers(player).show()
         }
 
         return InvPair(item, run)
