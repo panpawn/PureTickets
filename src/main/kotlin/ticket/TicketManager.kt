@@ -3,7 +3,6 @@ package ticket
 import storage.TicketSQL
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class TicketManager {
     var currentId = TicketSQL.currentId()
@@ -28,10 +27,4 @@ class TicketManager {
     }
 
     fun countNot(status: TicketStatus) = tickets.values.flatten().count { it.status != status }
-
-    fun size(uuid: UUID) = tickets[uuid]?.size ?: 0
-
-    fun all(exe: (Ticket) -> Unit) = tickets.values.flatten().forEach(exe)
-
-    fun keys() = tickets.keys
 }
