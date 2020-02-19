@@ -1,5 +1,5 @@
 name: PureTickets
-version: 2.0.0-beta.2
+version: 2.0.0-beta.3
 author: broccolai
 main: Tickets
 api-version: 1.13
@@ -22,9 +22,14 @@ permissions:
     description: "permission for users to create a ticket"
   tickets.user.update:
     description: "permission for users to update a ticket"
+  tickets.user.reopen:
+    description: "permission for users to update a ticket"
   tickets.staff.done:
     description: "permission for staff to done-mark a ticket"
     default: op
   tickets.staff.pick:
     description: "permission for staff to pick a ticket"
+    default: op
+  tickets.staff.yield:
+    description: "permission for staff to yield a ticket"
     default: op
