@@ -16,7 +16,7 @@ object Pick : Action("pick", "tickets.staff.pick", true) {
     }
 
     fun gui(player: Player, ticket: Ticket): String? {
-        if (!Done.hasPerms(player))
+        if (!hasPerms(player))
             return "You do not have permission for this"
 
         main(player, ticket)

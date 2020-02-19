@@ -11,12 +11,15 @@ import utility.staff
 object Update : Action("update", "tickets.user.update", false) {
     var ticket: Ticket? = null
 
-    fun gui(player: Player, input: Ticket) {
-        if (!hasPerms(player)) return
+    fun gui(player: Player, input: Ticket): String? {
+        if (!hasPerms(player))
+            return "You do not have permission"
 
         ticket = input
         player.message("Enter the updated message")
         getInput(player)
+
+        return null
     }
 
     override fun cli(commandSender: CommandSender, input: String) {
