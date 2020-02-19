@@ -21,8 +21,5 @@ abstract class Action(override val name: String, override val permission: String
         if (it == null) commandSender.message("Ticket not found")
     }
 
-    fun hasPerms(player: Player) = if (player.hasPermission(permission)) true else {
-        player.message("You do not have permission")
-        false
-    }
+    fun hasPerms(player: Player) = player.hasPermission(permission)
 }
