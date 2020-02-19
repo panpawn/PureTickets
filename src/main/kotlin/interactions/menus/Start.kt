@@ -3,9 +3,7 @@ package interactions.menus
 import Tickets.Companion.TicketManager
 import interactions.InvPair
 import interactions.Menu
-import interactions.actions.Close
-import interactions.actions.Create
-import interactions.actions.Update
+import interactions.actions.*
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -25,10 +23,10 @@ class Start(player: Player) : Menu(player, "Tickets", 18) {
             val ticket = tickets.getOrNull(i - 3)
 
             if (ticket == null) ticketPlaceholder().place(i)
-            else ticket(ticket).place(i)
+            else ticket(ticket, i).place(i)
         }
 
-        create().place(13)
+        create(13).place(13)
 
         if (player.hasPermission("tickets.staff"))
             list().place(17)
@@ -66,13 +64,13 @@ class Start(player: Player) : Menu(player, "Tickets", 18) {
         return InvPair(item, runs)
     }
 
-    private fun create(): InvPair {
+    private fun create(location: Int): InvPair {
         val item = Item(Material.GREEN_STAINED_GLASS_PANE).apply {
             name = "§a§lCreate New Ticket"
         }
 
         val run = Runnable {
-            Create.gui(player)
+            tryInvoke(Create.gui(player), location)
         }
 
         return InvPair(item, run)
@@ -102,29 +100,66 @@ class Start(player: Player) : Menu(player, "Tickets", 18) {
         return InvPair(item)
     }
 
-    private fun ticket(ticket: Ticket): InvPair {
+    private fun ticket(ticket: Ticket, location: Int): InvPair {
+        // TODO REMOVE STAFF FEARTURES HERE
         val item = Item(Material.FILLED_MAP).apply {
             name = "§f§l" + ticket.currentMessage()
             addLore("§7Status: §a" + ticket.status.name)
 
-            if (ticket.status == TicketStatus.PICKED) {
-                glow()
-                addLore("§7Picked by: §a" + Bukkit.getOfflinePlayer(ticket.uuid).name)
-            }
+            if (player.uniqueId == ticket.uuid) {
+                when (ticket.status) {
+                    TicketStatus.OPEN, TicketStatus.PICKED -> {
+                        addLore("§7Left click to update the ticket")
+                        addLore("§7Right click to close the ticket")
+                    }
 
-            addLore("")
-            addLore("§7Left click to update")
-            addLore("§7Right click to close")
+                    TicketStatus.CLOSED -> addLore("§7Left click to reopen the ticket")
+                }
+            } else {
+                when (ticket.status) {
+                    TicketStatus.OPEN -> addLore("§7Left click to pick the ticket")
+
+                    TicketStatus.PICKED -> {
+                        glow()
+                        addLore("§7Picked by: §a" + Bukkit.getOfflinePlayer(ticket.picker!!).name)
+
+                        if (ticket.picker == player.uniqueId) {
+                            addLore("§7Left click to done-mark the ticket")
+                            addLore("§7Right click to yield the ticket")
+                        }
+                    }
+
+                    TicketStatus.CLOSED -> addLore("§7Left click to reopen the ticket")
+                }
+            }
         }
 
         val runs = HashMap<ClickType, Runnable?>()
 
         runs[ClickType.LEFT] = Runnable {
-            Update.gui(player, ticket)
+            if (player.uniqueId == ticket.uuid) {
+                when (ticket.status) {
+                    TicketStatus.OPEN, TicketStatus.PICKED -> tryInvoke(Update.gui(player, ticket), location)
+
+                    TicketStatus.CLOSED -> tryInvoke(Reopen.gui(player, ticket), location)
+                }
+            } else {
+                when (ticket.status) {
+                    TicketStatus.OPEN -> tryInvoke(Pick.gui(player, ticket), location)
+
+                    TicketStatus.PICKED -> tryInvoke(Done.gui(player, ticket), location)
+
+                    TicketStatus.CLOSED -> tryInvoke(Reopen.gui(player, ticket), location)
+                }
+            }
         }
 
         runs[ClickType.RIGHT] = Runnable {
-            Close.gui(player, ticket)
+            if (player.uniqueId == ticket.uuid && ticket.status != TicketStatus.CLOSED) {
+                tryInvoke(Close.gui(player, ticket), location)
+            } else if (ticket.status == TicketStatus.PICKED && ticket.picker == player.uniqueId) {
+                tryInvoke(Yield.gui(player, ticket), location)
+            }
         }
 
         return InvPair(item, runs)
