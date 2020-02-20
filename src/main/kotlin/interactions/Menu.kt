@@ -1,7 +1,6 @@
 package interactions
 
 import Tickets.Companion.InventoryManager
-import Tickets.Companion.TICKETS
 import interactions.menus.Start
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -38,11 +37,6 @@ abstract class Menu(val player: Player, title: String, size: Int) {
         e.isCancelled = true
 
         runs[e.slot]?.get(e.click)?.run()
-    }
-
-    fun softUpdate() {
-        player.openInventory(inv)
-        InventoryManager[player] = this
     }
 
     companion object {
