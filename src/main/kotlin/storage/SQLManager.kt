@@ -6,7 +6,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.Statement
 
-class SQL {
+class SQLManager {
     private val db = File(TICKETS.dataFolder, "tickets.db")
     private var database: Connection? = null
 

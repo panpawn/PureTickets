@@ -4,7 +4,7 @@ import managers.InventoryManager
 import managers.Notifications
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
-import storage.SQL
+import storage.SQLManager
 import ticket.TicketManager
 
 class Tickets : JavaPlugin() {
@@ -12,7 +12,7 @@ class Tickets : JavaPlugin() {
         dataFolder.mkdir()
 
         TICKETS = this
-        SQLManager = SQL()
+        SQLManager = SQLManager()
         TicketManager = TicketManager()
         InventoryManager = InventoryManager()
         ChatInput = ChatInput()
@@ -34,7 +34,7 @@ class Tickets : JavaPlugin() {
     companion object {
         lateinit var TICKETS: Plugin
 
-        lateinit var SQLManager: SQL
+        lateinit var SQLManager: SQLManager
         lateinit var TicketManager: TicketManager
         lateinit var InventoryManager: InventoryManager
         lateinit var ChatInput: ChatInput
