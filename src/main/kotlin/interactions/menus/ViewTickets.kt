@@ -15,7 +15,7 @@ class ViewTickets(player: Player, private val tickets: () -> ArrayList<Ticket>?)
     override fun load() {
         val ticketInstance = tickets.invoke() ?: return
 
-        for (i in 0..ticketInstance.size) {
+        for (i in 0 until ticketInstance.size) {
             ticket(ticketInstance[i], i).place(i)
         }
     }
