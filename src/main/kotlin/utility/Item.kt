@@ -26,26 +26,10 @@ class Item(input: ItemStack?) {
             meta.setDisplayName(field)
         }
 
-    var amount = item.amount
-        set(value) {
-            field = value
-            item.amount = value
-        }
-
     fun addLore(input: String) {
         val newLore = lore
         newLore.add(input)
         lore = newLore
-    }
-
-    fun removeLore() {
-        val newLore = lore
-        newLore.removeAt(lore.count() - 1)
-        lore = newLore
-    }
-
-    fun isHead(): Boolean {
-        return type == Material.PLAYER_HEAD
     }
 
     fun setHead(player: OfflinePlayer) {
@@ -53,17 +37,6 @@ class Item(input: ItemStack?) {
         skull.owningPlayer = player
 
         meta = skull
-    }
-
-    fun setMobHead(input: String) {
-        val skull = meta as SkullMeta
-        skull.owner = input
-
-        meta = skull
-    }
-
-    fun getType(): String {
-        return type.name
     }
 
     fun glow() {
