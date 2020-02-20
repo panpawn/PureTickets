@@ -3,8 +3,10 @@ package interactions.menus
 import Tickets.Companion.TicketManager
 import interactions.InvPair
 import interactions.Menu
-import interactions.actions.*
-import org.bukkit.Bukkit
+import interactions.actions.Close
+import interactions.actions.Create
+import interactions.actions.Reopen
+import interactions.actions.Update
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -28,8 +30,7 @@ class Start(player: Player) : Menu(player, "Tickets", 18) {
 
         create(13).place(13)
 
-        if (player.hasPermission("tickets.staff"))
-            list().place(17)
+        if (player.hasPermission("tickets.staff")) list().place(17)
     }
 
     private fun player(): InvPair {
@@ -70,7 +71,7 @@ class Start(player: Player) : Menu(player, "Tickets", 18) {
         }
 
         val run = Runnable {
-            tryInvoke(Create.gui(player), location)
+            Create.tryAction(location, player)
         }
 
         return InvPair(item, run)
