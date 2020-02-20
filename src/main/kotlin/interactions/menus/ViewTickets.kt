@@ -58,26 +58,26 @@ class ViewTickets(player: Player, private val tickets: () -> ArrayList<Ticket>?)
         runs[ClickType.LEFT] = Runnable {
             if (player.uniqueId == ticket.uuid) {
                 when (ticket.status) {
-                    TicketStatus.OPEN, TicketStatus.PICKED -> tryInvoke(Update.gui(player, ticket), location)
+                    TicketStatus.OPEN, TicketStatus.PICKED -> Update.tryAction(location, player, ticket)
 
-                    TicketStatus.CLOSED -> tryInvoke(Reopen.gui(player, ticket), location)
+                    TicketStatus.CLOSED -> Reopen.tryAction(location, player, ticket)
                 }
             } else {
                 when (ticket.status) {
-                    TicketStatus.OPEN -> tryInvoke(Pick.gui(player, ticket), location)
+                    TicketStatus.OPEN -> Pick.tryAction(location, player, ticket)
 
-                    TicketStatus.PICKED -> tryInvoke(Done.gui(player, ticket), location)
+                    TicketStatus.PICKED -> Done.tryAction(location, player, ticket)
 
-                    TicketStatus.CLOSED -> tryInvoke(Reopen.gui(player, ticket), location)
+                    TicketStatus.CLOSED -> Reopen.tryAction(location, player, ticket)
                 }
             }
         }
 
         runs[ClickType.RIGHT] = Runnable {
             if (player.uniqueId == ticket.uuid && ticket.status != TicketStatus.CLOSED) {
-                tryInvoke(Close.gui(player, ticket), location)
+                Close.tryAction(location, player, ticket)
             } else if (ticket.status == TicketStatus.PICKED && ticket.picker == player.uniqueId) {
-                tryInvoke(Yield.gui(player, ticket), location)
+                Yield.tryAction(location, player, ticket)
             }
         }
 
