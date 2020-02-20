@@ -9,17 +9,16 @@ import ticket.TicketStatus
 import utility.message
 
 object Reopen : Action("reopen", "tickets.user.reopen", false) {
-    fun gui(player: Player, ticket: Ticket): String? {
-        if (player.uniqueId == ticket.uuid) {
+    override fun menu(player: Player, ticket: Ticket?) {
+        if (player.uniqueId == ticket?.uuid) {
             ticket.setStatus(TicketStatus.OPEN)
             ticket.notify("You have reopened your ticket")
         } else {
-            ticket.setStatus(TicketStatus.PICKED, player)
-            ticket.notify(player.name + " has reopened and picked your ticket")
+            ticket?.setStatus(TicketStatus.PICKED, player)
+            ticket?.notify(player.name + " has reopened and picked your ticket")
         }
 
-        TicketManager.add(player.uniqueId, ticket)
-        return null
+        TicketManager.add(player.uniqueId, ticket!!)
     }
 
     override fun cli(commandSender: CommandSender, input: String) {

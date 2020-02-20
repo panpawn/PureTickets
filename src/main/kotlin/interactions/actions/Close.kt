@@ -10,14 +10,12 @@ import ticket.TicketStatus
 import utility.message
 
 object Close : Action("close", "tickets.user.close", false) {
-    fun gui(player: Player, ticket: Ticket): String? {
+    override fun menu(player: Player, ticket: Ticket?) {
         if (!hasPerms(player))
-            return "You do not have permission"
+            throw Exception("You do not have permission")
 
-        ticket.setStatus(TicketStatus.CLOSED)
+        ticket?.setStatus(TicketStatus.CLOSED)
         InventoryManager.refresh(player)
-
-        return null
     }
 
     override fun cli(commandSender: CommandSender, input: String) {

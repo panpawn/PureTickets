@@ -21,14 +21,12 @@ object Create : Action("create", "tickets.user.create", false) {
         staff("§f§l" + player.name + "§7 - " + message)
     }
 
-    fun gui(player: Player): String? {
+    override fun menu(player: Player, ticket: Ticket?) {
         if (!hasPerms(player))
-            return "You do not have permission"
+            throw Exception("You do not have permission")
 
         player.message("Enter your ticket message")
         getInput(player)
-
-        return null
     }
 
     override fun cli(commandSender: CommandSender, input: String) {
