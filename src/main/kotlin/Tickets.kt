@@ -2,6 +2,7 @@ import interactions.TicketCommand
 import managers.ChatInput
 import managers.InventoryManager
 import managers.Notifications
+import managers.PlayerManager
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import storage.SQLManager
@@ -13,6 +14,7 @@ class Tickets : JavaPlugin() {
 
         TICKETS = this
         SQLManager = SQLManager()
+        PlayerManager = PlayerManager()
         TicketManager = TicketManager()
         InventoryManager = InventoryManager()
         ChatInput = ChatInput()
@@ -35,6 +37,7 @@ class Tickets : JavaPlugin() {
         lateinit var TICKETS: Plugin
 
         lateinit var SQLManager: SQLManager
+        lateinit var PlayerManager: PlayerManager
         lateinit var TicketManager: TicketManager
         lateinit var InventoryManager: InventoryManager
         lateinit var ChatInput: ChatInput
