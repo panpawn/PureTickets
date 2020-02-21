@@ -1,21 +1,21 @@
 package interactions
 
 import Tickets.Companion.TicketManager
-import interactions.menus.Start
+import interactions.menus.PlayerMenu
 import org.bukkit.Bukkit
-import utility.message
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import storage.TicketSQL
+import utility.message
 import java.util.*
 
 object TicketCommand : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, cmd: Command, commmandlabel: String, args: Array<String>): Boolean {
         if (args.isEmpty() && sender is Player) {
-            Start(sender).show()
+            PlayerMenu(sender).show()
             return true
         }
 

@@ -15,7 +15,7 @@ import ticket.Ticket
 import ticket.TicketStatus
 import utility.Item
 
-class Start(player: Player) : Menu(player, "Tickets", 18) {
+class PlayerMenu(player: Player) : Menu(player, "Tickets", 18) {
     override fun load() {
         player().place(1)
 

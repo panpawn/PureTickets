@@ -1,7 +1,7 @@
 package interactions
 
 import Tickets.Companion.InventoryManager
-import interactions.menus.Start
+import interactions.menus.PlayerMenu
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -49,7 +49,7 @@ abstract class Menu(val player: Player, title: String, size: Int) {
 
             val runs = HashMap<ClickType, Runnable?>()
 
-            runs[ClickType.LEFT] = Runnable { Start(player).show() }
+            runs[ClickType.LEFT] = Runnable { PlayerMenu(player).show() }
 
             runs[ClickType.RIGHT] = Runnable { TODO() }
 

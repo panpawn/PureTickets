@@ -1,5 +1,6 @@
 package interactions.actions
 
+import Tickets.Companion.InventoryManager
 import Tickets.Companion.TicketManager
 import interactions.Action
 import org.bukkit.command.CommandSender
@@ -19,6 +20,7 @@ object Reopen : Action("reopen", "tickets.user.reopen", false) {
         }
 
         TicketManager.add(player.uniqueId, ticket!!)
+        InventoryManager.refresh(player)
     }
 
     override fun cli(commandSender: CommandSender, input: String) {
