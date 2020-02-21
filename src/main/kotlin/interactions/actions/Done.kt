@@ -1,6 +1,7 @@
 package interactions.actions
 
 import Tickets.Companion.InventoryManager
+import Tickets.Companion.PlayerManager
 import interactions.Action
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -16,6 +17,8 @@ object Done : Action("done", "tickets.staff.done",  true) {
             throw Exception( "You cannot done-mark a ticket that someone else has picked")
 
         ticket.setStatus(TicketStatus.CLOSED)
+
+        PlayerManager[ticket.picker]?.incrementPoints()
         InventoryManager.refresh(player)
     }
 

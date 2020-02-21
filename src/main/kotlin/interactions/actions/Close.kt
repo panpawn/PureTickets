@@ -1,6 +1,7 @@
 package interactions.actions
 
 import Tickets.Companion.InventoryManager
+import Tickets.Companion.PlayerManager
 import Tickets.Companion.TicketManager
 import interactions.Action
 import org.bukkit.command.CommandSender
@@ -15,6 +16,8 @@ object Close : Action("close", "tickets.user.close", false) {
             throw Exception("You do not have permission")
 
         ticket?.setStatus(TicketStatus.CLOSED)
+
+        PlayerManager[ticket?.picker]?.incrementPoints()
         InventoryManager.refresh(player)
     }
 

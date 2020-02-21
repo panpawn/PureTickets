@@ -9,7 +9,7 @@ import java.util.*
 class PlayerManager : Listener {
     private val playerProfiles = HashMap<UUID, PlayerProfile>()
 
-    operator fun get(uuid: UUID) = playerProfiles[uuid]
+    operator fun get(uuid: UUID?) = playerProfiles[uuid]
 
     @EventHandler
     fun join(e: PlayerJoinEvent) {
