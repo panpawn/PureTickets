@@ -1,6 +1,7 @@
 package interactions.actions
 
 import Tickets.Companion.InventoryManager
+import Tickets.Companion.PlayerManager
 import Tickets.Companion.TicketManager
 import interactions.Action
 import org.bukkit.command.CommandSender
@@ -24,6 +25,9 @@ object Create : Action("create", "tickets.user.create", false) {
     override fun menu(player: Player, ticket: Ticket?) {
         if (!hasPerms(player))
             throw Exception("You do not have permission")
+
+        if (PlayerManager[player.uniqueId]?.isBlocked() == true)
+            throw Exception("You are currently blocked from making tickets")
 
         player.message("Enter your ticket message")
         getInput(player)
