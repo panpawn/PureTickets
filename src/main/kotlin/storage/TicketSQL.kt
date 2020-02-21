@@ -1,6 +1,7 @@
 package storage
 
 import Tickets.Companion.SQLManager
+import managers.PlayerManager
 import ticket.Message
 import ticket.Ticket
 import ticket.TicketStatus
@@ -11,7 +12,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 import kotlin.collections.ArrayList
-
 
 object TicketSQL {
     fun currentId() = "SELECT MAX(id) FROM ticket".query { it }.getInt(1)
@@ -56,6 +56,37 @@ object TicketSQL {
         }
     }
 
+    fun playerProfileExists(uuid: UUID) = "SELECT EXISTS(SELECT 1 FROM player WHERE uuid = ?)".query {
+        it.setUUID(1, uuid)
+        it
+    }.getBoolean(1)
+
+    fun getPlayerProfile(uuid: UUID): PlayerManager.PlayerProfile {
+        "SELECT points, blocked FROM user WHERE uuid = ?".query {
+            it.setUUID(1, uuid)
+            it
+        }.also {
+            return PlayerManager.PlayerProfile(uuid, it.getInt(1), it.getBoolean(2))
+        }
+    }
+
+    fun insPlayerProfile(playerProfile: PlayerManager.PlayerProfile) {
+        "INSERT INTO user(uuid, points, blocked) values (?, ?)".run {
+            it.setInt(1, playerProfile.getPoints())
+            it.setBoolean(2, playerProfile.isBlocked())
+            it
+        }
+    }
+
+    fun updPlayerProfile(playerProfile: PlayerManager.PlayerProfile) {
+        "UPDATE user SET points = ?, blocked = ? WHERE uuid = ?".run {
+            it.setInt(1, playerProfile.getPoints())
+            it.setBoolean(2, playerProfile.isBlocked())
+            it.setUUID(3, playerProfile.uuid)
+            it
+        }
+    }
+
     fun getActive(): HashMap<UUID, ArrayList<Ticket>> {
         val tickets = HashMap<UUID, ArrayList<Ticket>>()
 
@@ -82,9 +113,7 @@ object TicketSQL {
             it.setUUID(2, uuid)
             it
         }.forEach { ticket ->
-            val messages = getMessages(ticket)
-
-            val finalTicket = Ticket(ticket.getInt("id"), uuid, ticket.getUUID("picker"), messages, TicketStatus.valueOf(ticket.getString("status")))
+            val finalTicket = Ticket(ticket.getInt("id"), uuid, ticket.getUUID("picker"), getMessages(ticket), TicketStatus.valueOf(ticket.getString("status")))
 
             tickets.add(finalTicket)
         }
@@ -101,9 +130,9 @@ object TicketSQL {
         }.toMutableList() as ArrayList<Message>
     }
 
-    fun ResultSet.getUUID(column: String) = if (getString(column) == "null") null else UUID.fromString(getString(column))
+    private fun ResultSet.getUUID(column: String) = if (getString(column) == "null") null else UUID.fromString(getString(column))
 
-    fun PreparedStatement.setUUID(index: Int, uuid: UUID) = setString(index, uuid.toString())
+    private fun PreparedStatement.setUUID(index: Int, uuid: UUID) = setString(index, uuid.toString())
 
     private fun String.run(args: (PreparedStatement) -> PreparedStatement) {
         val c = SQLManager.getConnection()
