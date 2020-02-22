@@ -19,7 +19,7 @@ object Reopen : Action("reopen", "tickets.user.reopen", false) {
             ticket?.notify(player.name + " has reopened and picked your ticket")
         }
 
-        TicketManager.add(player.uniqueId, ticket!!)
+        TicketManager.add(ticket!!.uuid, ticket)
         InventoryManager.refresh(player)
     }
 
