@@ -29,8 +29,6 @@ class PlayerMenu(player: Player) : Menu(player, "Tickets", 18) {
         }
 
         create(13).place(13)
-
-        if (player.hasPermission("tickets.staff")) list().place(17)
     }
 
     private fun player(): InvPair {
@@ -72,22 +70,6 @@ class PlayerMenu(player: Player) : Menu(player, "Tickets", 18) {
 
         val run = Runnable {
             Create.tryAction(location, player)
-        }
-
-        return InvPair(item, run)
-    }
-
-    private fun list(): InvPair {
-        val item = Item(Material.BOOK).apply {
-            name = "§f§lView Tickets"
-            addLore("§7Tickets in: " + TicketManager.countNot(TicketStatus.CLOSED))
-
-            addLore("")
-            addLore("§7Left click to see recent ticket creators")
-        }
-
-        val run = Runnable {
-            ViewPlayers(player).show()
         }
 
         return InvPair(item, run)

@@ -2,6 +2,7 @@ package interactions
 
 import Tickets.Companion.InventoryManager
 import interactions.menus.PlayerMenu
+import interactions.menus.StaffMenu
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -45,13 +46,21 @@ abstract class Menu(val player: Player, title: String, size: Int) {
                 name = "§f§lGo Back"
                 addLore("§7You can click this to")
                 addLore("§7go back to the Main Screen")
+
+                if (player.hasPermission("tickets.staff.menu")) {
+                    addLore("")
+                    addLore("§7Right click to view Admin HUD")
+                }
             }
 
             val runs = HashMap<ClickType, Runnable?>()
 
             runs[ClickType.LEFT] = Runnable { PlayerMenu(player).show() }
 
-            runs[ClickType.RIGHT] = Runnable { TODO() }
+            runs[ClickType.RIGHT] = Runnable {
+                if (player.hasPermission("tickets.staff.menu"))
+                    StaffMenu(player).show()
+            }
 
             return InvPair(item, runs)
         }
