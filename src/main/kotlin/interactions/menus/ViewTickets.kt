@@ -25,7 +25,11 @@ class ViewTickets(player: Player, private val tickets: () -> List<Ticket>?) : Me
     private fun ticket(ticket: Ticket, location: Int): InvPair {
         val item = Item(Material.FILLED_MAP).apply {
             name = "§f§l" + ticket.currentMessage()
-            addLore("§7Status: §a" + ticket.status.name)
+
+            addLore("§7${ticket.holdersName()}")
+            addLore("§7${ticket.creationLocation.blockX} / ${ticket.creationLocation.blockY} / ${ticket.creationLocation.blockZ}")
+            addLore("§7${ticket.creationLocation.world?.name}")
+            addLore("")
 
             if (player.uniqueId == ticket.uuid) {
                 when (ticket.status) {
@@ -53,6 +57,10 @@ class ViewTickets(player: Player, private val tickets: () -> List<Ticket>?) : Me
                     TicketStatus.CLOSED -> addLore("§7Left click to reopen the ticket")
                 }
             }
+
+
+            addLore("")
+            addLore("§a§l${ticket.status.name}")
         }
 
         val runs = HashMap<ClickType, Runnable?>()
