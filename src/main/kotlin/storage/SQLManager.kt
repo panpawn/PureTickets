@@ -25,7 +25,7 @@ class SQLManager {
         statement.execute("CREATE TABLE IF NOT EXISTS user (uuid INTEGER, points INTEGER, blocked INTEGER);")
 
         statement = connection.createStatement()
-        statement.execute("CREATE TABLE IF NOT EXISTS ticket (id INTEGER, uuid TEXT, picker TEXT, status TEXT);")
+        statement.execute("CREATE TABLE IF NOT EXISTS ticket (id INTEGER, uuid TEXT, picker TEXT, status TEXT, x INTEGER, y INTEGER, z Integer, world TEXT);")
 
         statement = connection.createStatement()
         statement.execute("CREATE TABLE IF NOT EXISTS message (ticketId INTEGER, uuid TEXT, message TEXT, date INTEGER);")

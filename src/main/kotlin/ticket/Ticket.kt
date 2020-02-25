@@ -3,21 +3,21 @@ package ticket
 import Tickets.Companion.TicketManager
 import managers.Notifications
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import storage.TicketSQL
-import utility.message
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Ticket(val id: Int, val uuid: UUID, picker: UUID?, private val messages: ArrayList<Message>, status: TicketStatus) {
+class Ticket(val id: Int, val uuid: UUID, picker: UUID?, val messages: ArrayList<Message>, status: TicketStatus, val creationLocation: Location) {
     var picker = picker
         private set
     var status = status
         private set
 
-    constructor(player: Player, message: String) : this(TicketManager.currentId, player.uniqueId, null, ArrayList(), TicketStatus.OPEN) {
+    constructor(player: Player, message: String) : this(TicketManager.currentId, player.uniqueId, null, ArrayList(), TicketStatus.OPEN, player.location) {
         addMessage(player, message)
         TicketSQL.insTicket(this)
     }

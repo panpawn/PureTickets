@@ -2,6 +2,8 @@ package storage
 
 import Tickets.Companion.SQLManager
 import managers.PlayerManager
+import org.bukkit.Bukkit
+import org.bukkit.Location
 import ticket.Message
 import ticket.Ticket
 import ticket.TicketStatus
@@ -25,11 +27,15 @@ object TicketSQL {
     fun recentPlayers() = "SELECT DISTINCT uuid FROM ticket WHERE id IN (SELECT DISTINCT ticketId FROM message ORDER BY date DESC)".query { it }.forEachSequence { it.getUUID("uuid") }
 
     fun insTicket(ticket: Ticket) {
-        "INSERT INTO ticket(id, uuid, picker, status) VALUES (?, ?, ?, ?)".run {
+        "INSERT INTO ticket(id, uuid, picker, status, x, y, z, world) VALUES (?, ?, ?, ?, ?, ?, ?, ?)".run {
             it.setInt(1, ticket.id)
             it.setString(2, ticket.uuid.toString())
             it.setString(3, ticket.picker.toString())
             it.setString(4, ticket.status.name)
+            it.setInt(5, ticket.creationLocation.blockX)
+            it.setInt(6, ticket.creationLocation.blockY)
+            it.setInt(7, ticket.creationLocation.blockZ)
+            it.setString(8, ticket.creationLocation.world?.name)
 
             it
         }
@@ -96,7 +102,8 @@ object TicketSQL {
         }.forEach { ticket ->
             val messages = getMessages(ticket)
 
-            val finalTicket = Ticket(ticket.getInt("id"), ticket.getUUID("uuid")!!, ticket.getUUID("picker"), messages, TicketStatus.valueOf(ticket.getString("status")))
+            val finalTicket = Ticket(ticket.getInt("id"), ticket.getUUID("uuid")!!, ticket.getUUID("picker"), messages, TicketStatus.valueOf(ticket.getString("status")),
+                Location(Bukkit.getWorld(ticket.getString("world")), ticket.getDouble("x"), ticket.getDouble("y"), ticket.getDouble("z")))
 
             tickets.putIfAbsent(finalTicket.uuid, ArrayList())
             tickets[finalTicket.uuid]?.add(finalTicket)
@@ -113,7 +120,8 @@ object TicketSQL {
             it.setUUID(2, uuid)
             it
         }.forEach { ticket ->
-            val finalTicket = Ticket(ticket.getInt("id"), uuid, ticket.getUUID("picker"), getMessages(ticket), TicketStatus.valueOf(ticket.getString("status")))
+            val finalTicket = Ticket(ticket.getInt("id"), uuid, ticket.getUUID("picker"), getMessages(ticket), TicketStatus.valueOf(ticket.getString("status")),
+                Location(Bukkit.getWorld(ticket.getString("world")), ticket.getDouble("x"), ticket.getDouble("y"), ticket.getDouble("z")))
 
             tickets.add(finalTicket)
         }
