@@ -11,11 +11,13 @@ import ticket.Ticket
 import ticket.TicketStatus
 import utility.Item
 
-class ViewTickets(player: Player, private val tickets: () -> ArrayList<Ticket>?) : Menu(player, "View Tickets", 45) {
+class ViewTickets(player: Player, private val tickets: () -> List<Ticket>?) : Menu(player, "View Tickets", 45) {
     override fun load() {
         val ticketInstance = tickets.invoke() ?: return
 
-        for (i in 0 until ticketInstance.size) {
+        for (i in ticketInstance.indices) {
+            if (i + 1 > 36) break
+
             ticket(ticketInstance[i], i).place(i)
         }
     }
