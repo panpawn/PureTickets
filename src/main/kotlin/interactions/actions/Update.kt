@@ -15,7 +15,7 @@ object Update : Action("update", "tickets.user.update", false) {
         if (!hasPerms(player))
             throw Exception("You do not have permission")
 
-        Update.ticket = ticket
+        this.ticket = ticket
         player.message("Enter the updated message")
 
         getInput(player)
