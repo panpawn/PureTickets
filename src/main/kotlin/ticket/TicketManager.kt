@@ -17,6 +17,8 @@ class TicketManager {
 
     operator fun get(uuid: UUID) = tickets[uuid]
 
+    fun all() = tickets.values.flatten()
+
     fun add(uuid: UUID, ticket: Ticket) {
         tickets.putIfAbsent(uuid, ArrayList())
         tickets[uuid]?.add(ticket)

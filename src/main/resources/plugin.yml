@@ -27,6 +27,9 @@ permissions:
   tickets.staff.done:
     description: "permission for staff to done-mark a ticket"
     default: op
+  ticket.staff.menu:
+    description: "permission for staff to open admin hud"
+    default: op
   tickets.staff.pick:
     description: "permission for staff to pick a ticket"
     default: op
