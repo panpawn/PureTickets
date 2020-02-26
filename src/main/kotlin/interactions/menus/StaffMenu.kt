@@ -73,7 +73,7 @@ class StaffMenu(player: Player) : Menu(player, "Manage PureTickets", 18) {
         }
 
         val runnable = Runnable {
-            List.menu(player)
+            List.menu(player, null)
         }
 
         return InvPair(item, runnable)
