@@ -1,5 +1,6 @@
 package interactions.actions
 
+import Tickets.Companion.TICKETS
 import Tickets.Companion.TicketManager
 import interactions.Action
 import interactions.menus.ViewTickets
@@ -11,7 +12,7 @@ import utility.message
 
 object List : Action("list", "tickets.staff.list", false) {
     override fun menu(player: Player, ticket: Ticket?) {
-        player.message("Enter the name of the player you want to view")
+        player.message("Enter the name of the player you want to view:")
         getInput(player)
     }
 
@@ -29,8 +30,10 @@ object List : Action("list", "tickets.staff.list", false) {
             return
         }
 
-        ViewTickets(player) {
-            TicketManager[op.uniqueId]
-        }.show()
+        Bukkit.getScheduler().runTask(TICKETS, Runnable{
+            ViewTickets(player) {
+                TicketManager[op.uniqueId]
+            }.show()
+        })
     }
 }
