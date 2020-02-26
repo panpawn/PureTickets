@@ -10,7 +10,6 @@ import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import storage.TicketSQL
 import utility.message
-import java.util.*
 
 object TicketCommand : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, cmd: Command, commmandlabel: String, args: Array<String>): Boolean {
@@ -61,7 +60,7 @@ object TicketCommand : CommandExecutor, TabCompleter {
                 else mutableListOf()
 
             3 -> if (Actions.find(args[0].toUpperCase())?.action?.targets == true)
-                TicketManager[UUID.fromString(args[1])]
+                TicketManager[Bukkit.getOfflinePlayer(args[1]).uniqueId]
                     ?.indices?.toList()
                     ?.map { (it + 1).toString() }
                     ?.toMutableList() ?: mutableListOf()
