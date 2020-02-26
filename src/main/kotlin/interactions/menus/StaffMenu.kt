@@ -3,6 +3,7 @@ package interactions.menus
 import Tickets.Companion.TicketManager
 import interactions.InvPair
 import interactions.Menu
+import interactions.actions.List
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import ticket.TicketStatus
@@ -15,6 +16,8 @@ class StaffMenu(player: Player) : Menu(player, "Manage PureTickets", 18) {
         players().place(3)
 
         recent().place(5)
+
+        search().place(7)
     }
 
     private fun personal(): InvPair {
@@ -59,6 +62,18 @@ class StaffMenu(player: Player) : Menu(player, "Manage PureTickets", 18) {
             ViewTickets(player) {
                 TicketManager.all().filter { it.status == TicketStatus.OPEN }.sortedBy { it.messages.last().date }
             }.show()
+        }
+
+        return InvPair(item, runnable)
+    }
+
+    private fun search(): InvPair {
+        val item = Item(Material.COMPASS).apply {
+            name = "§f§lSearch For Player"
+        }
+
+        val runnable = Runnable {
+            List.menu(player)
         }
 
         return InvPair(item, runnable)
