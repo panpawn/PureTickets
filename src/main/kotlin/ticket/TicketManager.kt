@@ -1,5 +1,6 @@
 package ticket
 
+import org.bukkit.OfflinePlayer
 import storage.TicketSQL
 import java.util.*
 import kotlin.collections.ArrayList
@@ -16,6 +17,8 @@ class TicketManager {
     operator fun get(uuid: UUID?, index: Int) = tickets[uuid]?.get(index - 1)
 
     operator fun get(uuid: UUID) = tickets[uuid]
+
+    fun contains(player: OfflinePlayer) = tickets.containsKey(player.uniqueId)
 
     fun all() = tickets.values.flatten()
 
